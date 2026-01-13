@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTER V22 | DASHBOARD</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41; /* Vert Matrix */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .panel-container {
+            border: 2px solid #00ff41;
+            padding: 20px;
+            box-shadow: 0 0 15px #00ff41;
+            background: rgba(0, 0, 0, 0.9);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #00ff41;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .status-blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .menu-item {
+            margin: 10px 0;
+            padding: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            background: #00ff41;
+            color: black;
+        }
+
+        .terminal-text {
+            font-size: 0.8em;
+            color: #008f11;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="panel-container">
+        <div class="header">
+            <h1>SYSTEM MASTER V22</h1>
+            <p>STATUS: <span class="status-blink">ONLINE</span></p>
+        </div>
+
+        <div class="terminal-text">
+            > Initializing secure tunnel... DONE<br>
+            > Masking IP address... PROTECTED<br>
+            > Location: /storage/emulated/0/hack
+        </div>
+
+        <div style="margin-top: 30px;">
+            <div class="menu-item">[1] SCAN NETWORK</div>
+            <div class="menu-item">[2] VIEW LOGS</div>
+            <div class="menu-item">[3] SYSTEM SETTINGS</div>
+            <div class="menu-item">[4] DISCONNECT</div>
+        </div>
+    </div>
+
+</body>
+</html>
+ 
