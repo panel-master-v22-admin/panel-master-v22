@@ -1,0 +1,13 @@
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-01-13 01:34 +0100
+Nmap scan report for xvideos.com (185.88.181.6)
+Host is up (0.17s latency).
+Other addresses for xvideos.com (not scanned): 185.88.181.21 185.88.181.7 185.88.181.3 185.88.181.10 185.88.181.22 185.88.181.4 185.88.181.11 185.88.181.8 185.88.181.2 185.88.181.5 185.88.181.9
+Not shown: 95 filtered tcp ports (no-response)
+PORT     STATE  SERVICE
+80/tcp   open   http
+113/tcp  closed ident
+443/tcp  open   https
+2000/tcp open   cisco-sccp
+5060/tcp open   sip
+
+Nmap done: 1 IP address (1 host up) scanned in 7.18 seconds
