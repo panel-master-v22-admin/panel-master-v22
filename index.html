@@ -3,59 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur MGP 100 - Master V22</title>
+    <title>Relevé MGP - Master V22</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container" id="content-to-export">
         <h1>PANEL MASTER V22</h1>
-        <div class="sub-title">SYSTÈME DE CALCUL SUR 100</div>
+        <div class="sub-title">RELEVÉ DE NOTES OFFICIEL (BASE 100)</div>
         
         <div id="entries">
             <div class="row">
                 <input type="text" placeholder="Matière" class="subject">
-                <input type="number" placeholder="Note / 100" class="note">
+                <input type="number" placeholder="Note/100" class="note">
                 <input type="number" placeholder="Crédit" class="credit">
             </div>
         </div>
 
-        <button onclick="addRow()">+ AJOUTER UNE MATIÈRE</button>
-        <button onclick="calculateMGP()" style="background: white; color: black;">CALCULER LA MGP</button>
+        <button onclick="addRow()" id="add-btn">+ AJOUTER UNE MATIÈRE</button>
+        <button onclick="calculateMGP()" id="calc-btn" style="background: white; color: black;">CALCULER LA MGP</button>
 
-        <div id="result">MGP : -- / 4.00</div>
-        <button id="pdf-btn" class="btn-pdf" onclick="downloadPDF()" style="display: none;">TÉLÉCHARGER LE PDF</button>
+        <div id="result-section">
+            <div id="result">MGP : -- / 4.00</div>
+        </div>
+        
+        <button id="pdf-btn" class="btn-pdf" onclick="downloadPDF()" style="display: none;">TÉLÉCHARGER LE RELEVÉ (PDF)</button>
     </div>
 
     <script>
         function addRow() {
             const div = document.createElement('div');
             div.className = 'row';
-            div.innerHTML = '<input type="text" placeholder="Matière" class="subject"><input type="number" placeholder="Note / 100" class="note"><input type="number" placeholder="Crédit" class="credit">';
+            div.innerHTML = `
+                <input type="text" placeholder="Matière" class="subject">
+                <input type="number" placeholder="Note/100" class="note">
+                <input type="number" placeholder="Crédit" class="credit">
+            `;
             document.getElementById('entries').appendChild(div);
         }
 
         function calculateMGP() {
+            const subjects = document.getElementsByClassName('subject');
             const notes = document.getElementsByClassName('note');
             const credits = document.getElementsByClassName('credit');
-            let totalPoints = 0, totalCredits = 0;
+            
+            let totalPoints = 0;
+            let totalCredits = 0;
+            let hasData = false;
+
             for (let i = 0; i < notes.length; i++) {
                 let n = parseFloat(notes[i].value);
                 let c = parseFloat(credits[i].value);
                 if (!isNaN(n) && !isNaN(c)) {
                     totalPoints += ((n / 100) * 4) * c;
                     totalCredits += c;
+                    hasData = true;
                 }
             }
-            if (totalCredits > 0) {
-                document.getElementById('result').innerText = "MGP FINALE : " + (totalPoints / totalCredits).toFixed(2) + " / 4.00";
+
+            if (hasData && totalCredits > 0) {
+                const finalMGP = (totalPoints / totalCredits).toFixed(2);
+                document.getElementById('result').innerText = "MGP FINALE : " + finalMGP + " / 4.00";
                 document.getElementById('pdf-btn').style.display = "block";
+            } else {
+                alert("Veuillez remplir les notes et crédits.");
             }
         }
 
         function downloadPDF() {
+            // Masquer les boutons pour le PDF
+            document.getElementById('add-btn').style.display = 'none';
+            document.getElementById('calc-btn').style.display = 'none';
+            document.getElementById('pdf-btn').style.display = 'none';
+
             const element = document.getElementById('content-to-export');
-            html2pdf().from(element).save('Resultat_MGP.pdf');
+            const opt = {
+                margin: 0.5,
+                filename: 'Releve_MGP_V22.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, backgroundColor: '#111111' },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Réafficher les boutons après l'export
+                document.getElementById('add-btn').style.display = 'block';
+                document.getElementById('calc-btn').style.display = 'block';
+                document.getElementById('pdf-btn').style.display = 'block';
+            });
         }
     </script>
 </body>
